@@ -1,0 +1,37 @@
+{
+  "name": "lutrabot",
+  "version": "1.0.0",
+  "description": "Relays chat between streaming services",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "node app/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pgodschalk/LutraBot.git"
+  },
+  "keywords": [
+    "lutrabot",
+    "twitch",
+    "mixer",
+    "chat",
+    "relay"
+  ],
+  "author": "Patrick Godschalk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pgodschalk/LutraBot/issues"
+  },
+  "homepage": "https://github.com/pgodschalk/LutraBot#readme",
+  "devDependencies": {
+    "eslint": "latest"
+  },
+  "dependencies": {
+    "@mixer/client-node": "^3.3.0",
+    "assert": "^1.4.1",
+    "events": "^3.0.0",
+    "tmi.js": "^1.3.1",
+    "ws": "^6.1.3"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  ":fish": {
+    "twitch": "SabaPing"
+  },
+  ":sloth": {
+    "twitch": "SeriousSloth"
+  },
+  ":')": {
+    "twitch": ":D"
+  },
+  "':)": {
+    "twitch": ":D"
+  },
+  ">:)": {
+    "twitch": ":D"
+  },
+  "':(": {
+    "twitch": ":("
+  },
+  ">:P": {
+    "twitch": "TehePelo"
+  },
+  ">:[": {
+    "twitch": ":("
+  },
+  ":'(": {
+    "twitch": "BibleThump"
+  },
+  ":$": {
+    "twitch": ":O"
+  },
+  "#-)": {
+    "twitch": "PanicVis"
+  },
+  "0:-3": {
+    "twitch": "TBAngel"
+  },
+  "B-)": {
+    "twitch": "B)"
+  },
+  "-_-": {
+    "twitch": ":|"
+  },
+  ">:\\": {
+    "twitch": ":/"
+  },
+  ":-O": {
+    "twitch": ":O"
+  },
+  ":facepalm": {
+    "twitch": "FailFish"
+  },
+  ":nah": {
+    "twitch": "VoteNay"
+  },
+  ":swag": {
+    "twitch": "CoolCat"
+  },
+  ":wrench": {
+    "twitch": "VoHiYo"
+  },
+  ":yaaa": {
+    "twitch": "VoteYea"
+  },
+  ":salted": {
+    "twitch": "PJSalt"
+  },
+  ":spark": {
+    "twitch": "MorphinTime"
+  },
+  ":mixerlove": {
+    "twitch": "TwitchUnity"
+  },
+  ":beer": {
+    "twitch": "HSCheers"
+  },
+  ":coke": {
+    "twitch": "DrinkPurple"
+  },
+  ":dew": {
+    "twitch": "DrinkPurple"
+  },
+  ":pepper": {
+    "twitch": "DrinkPurple"
+  },
+  ":pepsi": {
+    "twitch": "DrinkPurple"
+  },
+  ":popcorn": {
+    "twitch": "PopCorn"
+  },
+  ":127": {
+    "twitch": "PanicBasket"
+  },
+  ":mappa": {
+    "twitch": "Kappa"
+  },
+  ":wat": {
+    "twitch": "WutFace"
+  },
+  ":yolo": {
+    "twitch": "BrokeBack"
+  },
+  ":rad-bot": {
+    "twitch": "MrDestructoid"
+  },
+  ":spaceship": {
+    "twitch": "twitchRaid"
+  },
+  ":dog": {
+    "twitch": "FrankerZ"
+  },
+  ":woof": {
+    "twitch": "FrankerZ"
+  }
+}

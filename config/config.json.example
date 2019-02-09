@@ -1,0 +1,18 @@
+{
+  "mixer": {
+    "username": "Solaire",
+    "oauth": "...",
+    "relayTo": [
+      "twitch"
+    ]
+  },
+  "twitch": {
+    "username": "PraiseTheBot",
+    "oauth": "oauth:...",
+    "streamer": "solaire",
+    "channels": ["solaire"],
+    "relayTo": [
+      "mixer"
+    ]
+  }
+}
