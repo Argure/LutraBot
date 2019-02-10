@@ -72,9 +72,7 @@ class Mixer extends EventEmitter {
 
     this.socket.on('ChatMessage', data => {
       // Ignore self
-      //if(data.user_name == this.username) return;
-      if(data.message.message[0].data.endsWith('[T]')) return;
-      if(data.message.message[0].data.endsWith('@Twitch]')) return;
+      if(data.user_name == this.username) return;
 
       this.emit('ChatMessage', data);
     });

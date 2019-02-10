@@ -5,8 +5,6 @@
  * @license MIT
  */
 
-const config = require('../config/config.json');
-
 module.exports = {
 
   /**
@@ -53,8 +51,7 @@ module.exports = {
     }
 
     if (coop) {
-      console.log(data);
-      completeMessage += ' [' + config.mixer.username + '@Mixer]';
+      completeMessage += ' [M / coop]';
     } else {
       completeMessage += ' [M]';
     }

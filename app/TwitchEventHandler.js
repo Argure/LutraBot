@@ -21,8 +21,7 @@ module.exports = {
     completeMessage += data.message;
 
     if (coop) {
-      console.log(data);
-      completeMessage += ' [' + data.channel.split('#').join('') + '@Twitch]';
+      completeMessage += ' [T / coop]';
     } else {
       completeMessage += ' [T]';
     }
@@ -44,8 +43,7 @@ module.exports = {
     completeMessage += data.message;
 
     if (coop) {
-      console.log(data);
-      completeMessage += ' [' + data.channel.split('#').join('') + '@Twitch]';
+      completeMessage += ' [T / coop]';
     } else {
       completeMessage += ' [T]';
     }
