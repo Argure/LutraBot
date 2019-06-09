@@ -7,6 +7,8 @@
 
 const config = require('../config/config.json');
 
+const request = require('request');
+
 const RelayHandler = require('./RelayHandler');
 const Mixer = require('./Mixer');
 const MixerEventHandler = require('./MixerEventHandler');
@@ -46,10 +48,10 @@ MixerBot.on('ChatMessage', data => {
 // Mixer
 // Skill event
 MixerBot.on('SkillAttribution', data => {
-  let message = MixerEventHandler.parseSkillAttribution(data, TwitchBot.getCoopState());
+  let message = MixerEventHandler.parseSkillAttribution(data);
 
   for (let i = 0; i < config.mixer.relayTo.length; i++) {
-    let destination = config.Mixermixer.relayTo[i];
+    let destination = config.mixer.relayTo[i];
 
     if (destination == 'twitch') {
       TwitchBot.say(config.twitch.streamer, message);
@@ -59,6 +61,28 @@ MixerBot.on('SkillAttribution', data => {
       }
     }
   }
+});
+
+// Mixer
+// GIF event
+MixerBot.on('GifAttribution', data => {
+  request(`https://mixer.com/api/v1/users/${data.triggeringUserId}`, { json: true }, (err, res, body) => {
+    if(err) return console.error(err);
+    let username = body.username;
+    let message = MixerEventHandler.parseGifAttribution(data, username);
+
+    for (let i = 0; i < config.mixer.relayTo.length; i++) {
+      let destination = config.mixer.relayTo[i];
+
+      if (destination == 'twitch') {
+        TwitchBot.say(config.twitch.streamer, message);
+
+        if (TwitchBot.getCoopState() == true) {
+          TwitchBot.say(config.twitch.channels[1], message);
+        }
+      }
+    }
+  });
 });
 
 // Twitch

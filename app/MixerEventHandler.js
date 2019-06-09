@@ -62,7 +62,9 @@ module.exports = {
   /**
    * Parses a skill event message from Mixer and returns a simple parsed
    * string. Stickers are not counted as a skill in this context, those are
-   * handled as a regular chat message event.
+   * handled as a regular chat message event. GIFs are usually a skill here but
+   * are not emitted as a SkillAttribution event but rather as a custom
+   * GifAttribution event.
    *
    * @param {*} data Raw message data from the Mixer chat API
    * @return {string}
@@ -71,6 +73,21 @@ module.exports = {
     let completeMessage = '';
     completeMessage += data.user_name;
     completeMessage += ' used a skill on Mixer: ' + data.skill.skill_name + ' (' + data.skill.cost + ' ' + data.skill.currency + ')';
+    return completeMessage;
+  },
+
+  /**
+   * Parser a skill pseudo-event from Mixer and returns a simple parsed string.
+   * This skill does not come from the chatbot socket but from Constellation
+   * since the chatbot socket does not include the gif URL.
+   *
+   * @param {*} data Raw message data from the Mixer Constellation API
+   * @return {string}
+   */
+  parseGifAttribution(data, username) {
+    let completeMessage = '';
+    completeMessage += username;
+    completeMessage += ' sent a GIF on Mixer (' + data.price + ' ' + data.currencyType + ') - ' + data.parameters.giphyUrl;
     return completeMessage;
   }
 };

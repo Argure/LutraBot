@@ -6,9 +6,12 @@
  */
 
 const MixerChat = require('@mixer/client-node');
+const { Carina } = require('carina');
 const ws = require('ws');
 const assert = require('assert');
 const EventEmitter = require('events').EventEmitter;
+
+Carina.WebSocket = ws;
 
 class Mixer extends EventEmitter {
   constructor({
@@ -28,7 +31,9 @@ class Mixer extends EventEmitter {
     this.oauth = oauth;
 
     this.socket = null;
+    this.carina = null;
     this.userInfo = null;
+    this.carinaUserId = null;
 
     this.client = new MixerChat.Client();
     // With OAuth we don't need to log in. The OAuth Provider will attach the
@@ -39,6 +44,10 @@ class Mixer extends EventEmitter {
         expires: Date.now() + (365 * 24 * 60 * 60 * 1000)
       }
     }));
+
+    this.client.request('GET', `channels/${this.username}?fields=id`).then(response => {
+      this.carinaUserId = response.body.id;
+    });
 
     this.client.request('GET', 'users/current').then(response => {
       this.userInfo = response.body;
@@ -63,6 +72,12 @@ class Mixer extends EventEmitter {
   async _connect(userId, channelId, endpoints, authkey) {
     // Chat connection
     this.socket = new MixerChat.Socket(ws, endpoints).boot();
+    this.carina = new Carina({
+      queryString: {
+        'Client-ID': this.oauth
+      },
+      isBot: true
+    }).open();
 
     // Handle errors
     this.socket.on('error', error => {
@@ -81,7 +96,20 @@ class Mixer extends EventEmitter {
       // Ignore self
       if(data.user_name == this.username) return;
 
+      // Ignore gifs becuase we have our own fake 'GifAttribution' event which
+      // uses constellation since this actually includes the GIF url
+      if(data.skill.skill_name == 'Send a GIF') return;
+
       this.emit('SkillAttribution', data);
+    });
+
+    this.carina.subscribe(`channel:${this.carinaUserId}:skill`, data => {
+      // Ignore self
+      //if(data.triggeringUserId == this.userInfo.id) return;
+
+      if(data.manifest.name == 'giphy') {
+        this.emit('GifAttribution', data);
+      }
     });
 
     return this.socket.auth(channelId, userId, authkey).then(() => {
