@@ -85,6 +85,11 @@ class Mixer extends EventEmitter {
       console.error(error);
     });
 
+    // The PollStart event will keep firing until the poll ends, we only want
+    // to relay it once so we simply set and unset this bool on each PollStart
+    // and PollEnd.
+    let pollActive = false;
+
     this.socket.on('ChatMessage', data => {
       // Ignore self
       if(data.user_name == this.username) return;
@@ -93,9 +98,6 @@ class Mixer extends EventEmitter {
     });
 
     this.socket.on('SkillAttribution', data => {
-      // Ignore self
-      if(data.user_name == this.username) return;
-
       // Ignore gifs becuase we have our own fake 'GifAttribution' event which
       // uses constellation since this actually includes the GIF url
       if(data.skill.skill_name == 'Send a GIF') return;
@@ -103,10 +105,19 @@ class Mixer extends EventEmitter {
       this.emit('SkillAttribution', data);
     });
 
-    this.carina.subscribe(`channel:${this.carinaUserId}:skill`, data => {
-      // Ignore self
-      //if(data.triggeringUserId == this.userInfo.id) return;
+    this.socket.on('PollStart', data => {
+      if (!pollActive) {
+        pollActive = true;
+        this.emit('PollStart', data);
+      }
+    });
 
+    this.socket.on('PollEnd', data => {
+      pollActive = false;
+      this.emit('PollEnd', data);
+    });
+
+    this.carina.subscribe(`channel:${this.carinaUserId}:skill`, data => {
       if(data.manifest.name == 'giphy') {
         this.emit('GifAttribution', data);
       }

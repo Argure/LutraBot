@@ -85,6 +85,42 @@ MixerBot.on('GifAttribution', data => {
   });
 });
 
+// Mixer
+// PollStart event
+MixerBot.on('PollStart', data => {
+  let message = MixerEventHandler.parsePollStart(data);
+
+  for (let i = 0; i < config.mixer.relayTo.length; i++) {
+    let destination = config.mixer.relayTo[i];
+
+    if (destination == 'twitch') {
+      TwitchBot.say(config.twitch.streamer, message);
+
+      if (TwitchBot.getCoopState() == true) {
+        TwitchBot.say(config.twitch.channels[1], message);
+      }
+    }
+  }
+});
+
+// Mixer
+// PollEnd event
+MixerBot.on('PollEnd', data => {
+  let message = MixerEventHandler.parsePollEnd(data);
+
+  for (let i = 0; i < config.mixer.relayTo.length; i++) {
+    let destination = config.mixer.relayTo[i];
+
+    if (destination == 'twitch') {
+      TwitchBot.say(config.twitch.streamer, message);
+
+      if (TwitchBot.getCoopState() == true) {
+        TwitchBot.say(config.twitch.channels[1], message);
+      }
+    }
+  }
+});
+
 // Twitch
 // Action event
 TwitchBot.on('ActionMessage', data => {

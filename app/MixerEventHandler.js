@@ -5,6 +5,8 @@
  * @license MIT
  */
 
+const helpers = require('./helpers');
+
 module.exports = {
 
   /**
@@ -88,6 +90,79 @@ module.exports = {
     let completeMessage = '';
     completeMessage += username;
     completeMessage += ' sent a GIF on Mixer (' + data.price + ' ' + data.currencyType + ') - ' + data.parameters.giphyUrl;
+    return completeMessage;
+  },
+
+  /**
+   * Parses a PolLStart-event from Mixer and returns a simple parsed string.
+   * Contains who started the poll, the poll subject, the poll duration in
+   * seconds, and the responses.
+   *
+   * @param {*} data Raw message data from the Mixer chat API
+   * @return {string}
+   */
+  parsePollStart(data) {
+    let completeMessage = '';
+    completeMessage += 'TwitchVotes ';
+    completeMessage += data.author.user_name; // Username
+    completeMessage += ' started a poll on Mixer: "';
+    completeMessage += data.q; // Title
+    completeMessage += '" for ';
+    completeMessage += Math.ceil(data.duration / 1000); // Duration in seconds, rounded up;
+    completeMessage += ' seconds.\n\nChoices:\n';
+
+    for (let i = 0; i < data.answers.length; i++) {
+      completeMessage += '"' + data.answers[i] + '"';
+
+      if (i == data.answers.length - 1) {
+        completeMessage += '.';
+      } else {
+        completeMessage += ', ';
+      }
+    }
+
+    return completeMessage;
+  },
+
+  /**
+   * Parses a PollEnd-event from Mixer and returns a simple parsed string.
+   * Contains the announcement that the poll has ended and the results.
+   *
+   * @param {*} data Raw message data from the Mixer chat API
+   * @return {string}
+   */
+  parsePollEnd(data) {
+    let completeMessage = '';
+    completeMessage += 'TwitchVotes The poll has ended! ';
+
+    let responses = helpers.getHighestValueKeys(data.responses);
+
+    if (responses.length == 1) {
+      completeMessage += 'Winner: ';
+      completeMessage += '"' + responses[0] + '"';
+      completeMessage += ' (';
+      completeMessage += helpers.getHighestValue(data.responses);
+      completeMessage += ')';
+    } else {
+      completeMessage += 'Tie: ';
+      for (let i = 0; i < responses.length; i++) {
+        completeMessage += '"' + responses[i] + '"';
+
+        if (i == responses.length - 1) {
+          completeMessage += '.';
+        } else {
+          completeMessage += ', ';
+        }
+      }
+      completeMessage += ' (';
+      completeMessage += helpers.getHighestValue(data.responses);
+      completeMessage += ')';
+    }
+
+    completeMessage += ' -- ';
+    completeMessage += data.voters;
+    completeMessage += ' total votes.)';
+
     return completeMessage;
   }
 };
