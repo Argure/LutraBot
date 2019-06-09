@@ -73,6 +73,7 @@ module.exports = {
    */
   parseSkillAttribution(data) {
     let completeMessage = '';
+    completeMessage = 'PurpleStar ';
     completeMessage += data.user_name;
     completeMessage += ' used a skill on Mixer: ' + data.skill.skill_name + ' (' + data.skill.cost + ' ' + data.skill.currency + ')';
     return completeMessage;
@@ -88,6 +89,7 @@ module.exports = {
    */
   parseGifAttribution(data, username) {
     let completeMessage = '';
+    completeMessage = 'TTours ';
     completeMessage += username;
     completeMessage += ' sent a GIF on Mixer (' + data.price + ' ' + data.currencyType + ') - ' + data.parameters.giphyUrl;
     return completeMessage;
@@ -161,7 +163,7 @@ module.exports = {
 
     completeMessage += ' -- ';
     completeMessage += data.voters;
-    completeMessage += ' total votes.)';
+    completeMessage += ' total votes.';
 
     return completeMessage;
   }

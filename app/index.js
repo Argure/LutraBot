@@ -121,6 +121,12 @@ MixerBot.on('PollEnd', data => {
   }
 });
 
+// Mixer
+// ClearMessages event
+MixerBot.on('ClearMessages', () => {
+  TwitchBot.clear(config.twitch.streamer);
+});
+
 // Twitch
 // Action event
 TwitchBot.on('ActionMessage', data => {
@@ -173,6 +179,12 @@ TwitchBot.on('ChatMessage', data => {
       }
     }
   }
+});
+
+// Twitch
+// ClearChat event
+TwitchBot.on('ClearChat', () => {
+  MixerBot.clear();
 });
 
 // Twitch

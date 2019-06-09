@@ -117,6 +117,10 @@ class Mixer extends EventEmitter {
       this.emit('PollEnd', data);
     });
 
+    this.socket.on('ClearMessages', () => {
+      this.emit('ClearMessages');
+    });
+
     this.carina.subscribe(`channel:${this.carinaUserId}:skill`, data => {
       if(data.manifest.name == 'giphy') {
         this.emit('GifAttribution', data);
@@ -135,6 +139,10 @@ class Mixer extends EventEmitter {
    */
   say(message) {
     this.socket.call('msg', [message]);
+  }
+
+  clear() {
+    this.socket.call('clearMessages');
   }
 }
 

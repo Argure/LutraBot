@@ -92,6 +92,10 @@ class Twitch extends EventEmitter {
 
       this.emit('ChatMessage', data);
     });
+
+    this.client.on('clearchat', () => {
+      this.emit('ClearChat');
+    });
   }
 
   /**
@@ -134,6 +138,15 @@ class Twitch extends EventEmitter {
    */
   say(channel, message) {
     this.client.say(channel, message).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  /**
+   * Clears the chat window
+   */
+  clear(channel) {
+    this.client.clear(channel).catch((err) => {
       console.error(err);
     });
   }
